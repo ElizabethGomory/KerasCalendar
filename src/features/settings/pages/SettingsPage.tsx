@@ -1,10 +1,30 @@
+import { useEffect, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { initGoogleApi, connectGoogleCalendar, disconnectGoogleCalendar, isGoogleConnected, onGoogleStatusChange } from '@/services/google-calendar'
+import type { GoogleStatus } from '@/services/google-calendar'
 
 export function SettingsPage() {
+  const [googleStatus, setGoogleStatus] = useState<GoogleStatus>('disconnected')
+
+  useEffect(() => {
+    const unsub = onGoogleStatusChange(setGoogleStatus)
+    initGoogleApi()
+    if (isGoogleConnected()) setGoogleStatus('connected')
+    return unsub
+  }, [])
+
+  const handleGoogleConnect = useCallback(async () => {
+    await connectGoogleCalendar()
+  }, [])
+
+  const handleGoogleDisconnect = useCallback(() => {
+    disconnectGoogleCalendar()
+  }, [])
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -25,9 +45,9 @@ export function SettingsPage() {
         <CardContent className="flex flex-col gap-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
-              <Label>Idioma</Label>
+              <Label htmlFor="language">Idioma</Label>
               <Select defaultValue="es">
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger aria-label="Idioma"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="es">Español</SelectItem>
                   <SelectItem value="en">English</SelectItem>
@@ -35,9 +55,9 @@ export function SettingsPage() {
               </Select>
             </div>
             <div className="flex flex-col gap-2">
-              <Label>Zona horaria</Label>
+              <Label htmlFor="timezone">Zona horaria</Label>
               <Select defaultValue={Intl.DateTimeFormat().resolvedOptions().timeZone}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger aria-label="Zona horaria"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value={Intl.DateTimeFormat().resolvedOptions().timeZone}>
                     {Intl.DateTimeFormat().resolvedOptions().timeZone}
@@ -47,7 +67,7 @@ export function SettingsPage() {
             </div>
           </div>
           <div className="flex justify-end">
-            <Button>Guardar cambios</Button>
+            <Button aria-label="Guardar cambios de preferencias">Guardar cambios</Button>
           </div>
         </CardContent>
       </Card>
@@ -57,8 +77,42 @@ export function SettingsPage() {
           <CardTitle>Google Calendar</CardTitle>
           <CardDescription>Sincroniza tus actividades con Google Calendar</CardDescription>
         </CardHeader>
-        <CardContent>
-          <Button variant="secondary">Conectar Google Calendar</Button>
+        <CardContent className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div
+              className={`h-3 w-3 rounded-full ${
+                googleStatus === 'connected' ? 'bg-green-500' :
+                googleStatus === 'connecting' ? 'bg-yellow-500 animate-pulse' :
+                googleStatus === 'error' ? 'bg-red-500' :
+                'bg-gray-400'
+              }`}
+              role="status"
+              aria-label={`Google Calendar: ${googleStatus === 'connected' ? 'conectado' : googleStatus === 'connecting' ? 'conectando' : googleStatus === 'error' ? 'error' : 'desconectado'}`}
+            />
+            <span className="text-sm text-keras-text/80">
+              {googleStatus === 'connected' ? 'Conectado' :
+               googleStatus === 'connecting' ? 'Conectando...' :
+               googleStatus === 'error' ? 'Error de conexión' :
+               'No conectado'}
+            </span>
+          </div>
+          {googleStatus === 'connected' ? (
+            <Button
+              variant="secondary"
+              onClick={handleGoogleDisconnect}
+              aria-label="Desconectar Google Calendar"
+            >
+              Desconectar
+            </Button>
+          ) : (
+            <Button
+              onClick={handleGoogleConnect}
+              disabled={googleStatus === 'connecting'}
+              aria-label="Conectar Google Calendar"
+            >
+              {googleStatus === 'connecting' ? 'Conectando...' : 'Conectar Google Calendar'}
+            </Button>
+          )}
         </CardContent>
       </Card>
     </motion.div>

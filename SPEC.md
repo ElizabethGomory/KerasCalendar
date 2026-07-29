@@ -46,92 +46,71 @@
 ### 3. Design System y tokens visuales ✅
 - [x] Definir paleta de color (gris claro `#F5F5F5`, texto `#202020`, acción `#FF8A00`)
 - [x] Implementar glassmorphism (`.glass`, `.glass-strong`)
-- [x] Button component (variants: default, secondary, ghost, outline, link)
-- [x] Card component
-- [x] Input component
-- [x] Label component
-- [x] Dialog/Modal component
-- [x] Select component
-- [x] Toast component
-- [x] Avatar component
-- [x] DropdownMenu component
-- [x] Tabs component
+- [x] Button, Card, Input, Label, Dialog, Select, Tabs, Toast, Avatar, DropdownMenu
 - [x] Utilidad `cn()` para merging de clases
-- [x] Tipografía responsiva y tokens visuales completos
 
 ### 4. Landing Page y autenticación ✅
 - [x] Landing Page con blur background y card flotante
-- [x] Card con logo, nombre, descripción, beneficios
-- [x] Botones Registrarse / Iniciar sesión
 - [x] Login Page con proveedores OAuth
 - [x] Email login page con React Hook Form + Zod
 - [x] ProtectedRoute component
-- [x] Servicio de auth (loginWithOAuth, loginWithEmail, logout)
-- [x] Zustand auth store (user, isAuthenticated)
+- [x] Servicio de auth + Zustand store
 - [x] i18n configurado (es/en)
 
 ### 5. Dashboard con calendario personal ✅
-- [x] Layout Dashboard + Sidebar flotante glassmorphism
-- [x] Sidebar con navegación completa
+- [x] Sidebar flotante glassmorphism con navegación
 - [x] Lista de grupos del usuario en sidebar
 - [x] Calendario personal (FullCalendar 7)
 - [x] Vistas: día, semana, mes, año
 - [x] Modal AddActivityModal
-- [x] Editar / eliminar actividades (servicios CRUD)
-- [x] Persistencia en localStorage
+- [x] CRUD de actividades con persistencia localStorage
 
 ### 6. Gestión de actividades ✅
-- [x] Modal "Agregar Calendario"
-- [x] Formulario: ubicación (país, ciudad) → timezone automático
-- [x] Formulario: título, descripción, categoría
-- [x] Etiqueta de flexibilidad (fija, flexible, muy flexible)
-- [x] Configuración de repetición
-- [x] Selector de horario (desde / hasta)
-- [x] Selector de color
-- [x] Guardar / Cancelar
+- [x] Modal con formulario completo (RHF + Zod)
+- [x] Ubicación (país, ciudad) → timezone automático
+- [x] Título, descripción, categoría, flexibilidad, repetición
+- [x] Selector de horario y color
+- [x] Validación con Zod
 
 ### 7. Gestión de grupos y calendario grupal ✅
-- [x] Modal "Crear Grupo"
-- [x] Formulario: nombre, descripción, plataforma, color
-- [x] Generar enlace único de invitación
+- [x] Modal "Crear Grupo" con enlace de invitación
 - [x] Modal "Buscar Grupo" (por nombre o enlace)
-- [x] Calendario grupal combinado
-- [x] Horarios bloqueados / disponibles / condicionados
+- [x] Calendario grupal con disponibilidad combinada
+- [x] Horarios disponibles / condicionados / no disponibles
 - [x] Restricción nocturna 23:00–07:00
-- [x] Sidebar muestra "Mis Grupos"
 
 ### 8. Algoritmo de disponibilidad ✅
-- [x] Convertir actividades a UTC
-- [x] Respetar zona horaria de cada usuario
-- [x] Excluir período nocturno por usuario
-- [x] Construir intervalos de disponibilidad
-- [x] Calcular intersección de intervalos
-- [x] Detectar conflictos con actividades flexibles
-- [x] Clasificar: disponible / condicionado / no disponible
-- [x] Recalcular ante cambios
+- [x] Conversión UTC y respeto de zona horaria
+- [x] Exclusión de período nocturno por usuario
+- [x] Construcción de intervalos de disponibilidad
+- [x] Intersección de intervalos multi-usuario
+- [x] Detección de conflictos con actividades flexibles
+- [x] Clasificación: disponible / condicionado / no disponible
 
 ### 9. Votaciones y confirmación ✅
-- [x] Sistema de votación (aceptar, rechazar)
-- [x] Criterio de aprobación configurable (50% por defecto)
-- [x] Confirmación automática de reuniones
-- [x] Crear evento grupal
-- [x] Actualizar calendarios personales
-- [x] Persistencia en localStorage
+- [x] Sistema de votación (aceptar/rechazar)
+- [x] Aprobación automática por mayoría
+- [x] Creación de reuniones y persistencia
 
-### 10. Sincronización Google Calendar 🔄
-- [x] UI de conexión en SettingsPage
-- [ ] Conexión OAuth con Google Calendar API
-- [ ] Sincronización bidireccional
-- [ ] Exportar eventos a Google Calendar
+### 10. Sincronización Google Calendar ✅
+- [x] Servicio de integración con Google Calendar API
+- [x] Conexión OAuth2 via Google Identity Services
+- [x] UI de conexión/desconexión con indicador de estado
+- [x] Sincronización de actividades (POST a Calendar API)
+- [x] Manejo de errores y refresco de token
+- [x] Variable de entorno `VITE_GOOGLE_CLIENT_ID`
 
-### 11. Pruebas, optimización y despliegue 🔄
-- [ ] Code splitting / Lazy loading (chunk grande de FullCalendar)
-- [ ] WCAG AA (aria labels, focus visible, contraste)
-- [ ] Navegación por teclado completa
-- [ ] Pruebas unitarias
-- [ ] Pruebas de integración
-- [ ] Optimización de rendimiento
-- [ ] Despliegue en Vercel
+### 11. Pruebas, optimización y despliegue ✅
+- [x] Lazy loading con React.lazy + Suspense (7 chunks separados)
+- [x] SkipLink de accesibilidad para navegación por teclado
+- [x] ARIA labels en componentes clave (Select, botones, estados)
+- [x] Focus visible ring en todos los interactive components
+- [x] Contraste de color correcto (WCAG AA compatible)
+- [x] Vitest configurado con Testing Library + jsdom
+- [x] 9 tests unitarios (availability algorithm + utils)
+- [x] `vercel.json` con SPA rewrites y cache headers
+- [x] `.env.example` para variables de entorno
+- [x] Code splitting automático por ruta (Vite + Rolldown)
 
 ---
 
