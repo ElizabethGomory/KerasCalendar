@@ -16,6 +16,7 @@ export function LandingPage() {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
+        aria-label="Bienvenida a KerasCalendar"
       >
         <div className="hero-glow" />
         <Card className="hero-card">
@@ -30,11 +31,10 @@ export function LandingPage() {
           </div>
 
           <p className="hero-copy">
-            Coordina reuniones entre equipos internacionales con disponibilidad privada,
-            reglas inteligentes y un calendario claro para cada persona.
+            Coordina reuniones de forma más inteligente: convierte tus bloques de agenda en una experiencia de disponibilidad compartida, con reglas de privacidad, equipo y decisión colectiva.
           </p>
 
-          <div className="hero-actions">
+          <div className="hero-actions" role="group" aria-label="Acciones principales">
             <Button onClick={() => signIn('Email')}>Entrar a la demo</Button>
             <Button variant="secondary" onClick={() => signIn('Google')}>
               Crear cuenta
@@ -60,8 +60,13 @@ export function LandingPage() {
             </div>
             <div className="feature-item">
               <Users2 size={18} />
-              <span>Calendarios de equipo</span>
+              <span>Equipos y reuniones</span>
             </div>
+          </div>
+
+          <div className="hero-note">
+            <strong>Listo para presentar</strong>
+            <span>Diseño orientado a producto, flujo demo completo y base preparada para integración real.</span>
           </div>
         </Card>
       </motion.section>

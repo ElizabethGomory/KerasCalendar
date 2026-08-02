@@ -11,18 +11,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LandingPage />}
-        />
-        <Route
-          path="/dashboard"
-          element={isAuthenticated ? <DashboardPage /> : <Navigate to="/" replace />}
-        />
-        <Route
-          path="/calendar"
-          element={isAuthenticated ? <CalendarPage /> : <Navigate to="/" replace />}
-        />
+        <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LandingPage />} />
+        <Route path="/dashboard" element={isAuthenticated ? <DashboardPage /> : <Navigate to="/" replace />} />
+        <Route path="/calendar" element={isAuthenticated ? <CalendarPage /> : <Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   )

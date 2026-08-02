@@ -1,49 +1,28 @@
-export type Activity = {
-  id: string
-  title: string
-  category: string
-  description: string
-  date: string
-  start: string
-  end: string
-  color: string
-  flexibility: 'fija' | 'flexible'
-  recurring: 'none' | 'daily' | 'weekly' | 'monthly'
-}
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 
-export type AvailabilitySlot = {
-  label: string
-  start: string
-  end: string
-  status: 'Disponible' | 'Disponible condicionado'
-}
+export default function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'Method not allowed' })
+    return
+  }
 
-export type AvailabilitySuggestion = {
-  day: string
-  slots: AvailabilitySlot[]
-}
+  const activities = Array.isArray(req.body?.activities) ? req.body.activities : []
+  const windowSizeHours = Number(req.body?.windowSizeHours ?? 2)
 
-export function getAvailabilitySuggestions(activities: Activity[], windowSizeHours = 2): AvailabilitySuggestion[] {
   const day = activities[0]?.date ?? '2026-08-03'
   const startOfDay = '08:00'
   const endOfDay = '22:00'
-  const slots: AvailabilitySlot[] = []
-
-  const blocked = activities
-    .filter((activity) => activity.date === day)
-    .map((activity) => ({
-      start: activity.start,
-      end: activity.end,
-    }))
-
   const restStart = '23:00'
   const restEnd = '07:00'
+  const slots: Array<{ label: string; start: string; end: string; status: string }> = []
 
   let current = startOfDay
   while (current < endOfDay) {
     const next = addHours(current, windowSizeHours)
     const overlapsRest = overlaps(current, next, restStart, restEnd)
-    const overlapsBlocked = blocked.some((activity) => overlaps(current, next, activity.start, activity.end))
+    const overlapsBlocked = activities.some((activity: any) =>
+      activity.date === day && overlaps(current, next, activity.start, activity.end),
+    )
 
     if (!overlapsRest) {
       slots.push({
@@ -57,7 +36,7 @@ export function getAvailabilitySuggestions(activities: Activity[], windowSizeHou
     current = next
   }
 
-  return [{ day, slots }]
+  res.status(200).json({ day, slots })
 }
 
 function overlaps(startA: string, endA: string, startB: string, endB: string) {

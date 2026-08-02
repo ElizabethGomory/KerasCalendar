@@ -1,15 +1,54 @@
 import { motion } from 'framer-motion'
-import { CalendarClock, LogOut, Sparkles, Users2 } from 'lucide-react'
+import { CalendarClock, Link2, LogOut, Sparkles, Users2, Vote } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { MeetingDecisionPanel } from '../components/MeetingDecisionPanel'
+import { TeamPanel } from '../components/TeamPanel'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
+import type { Team } from '../lib/team'
 import { useAuthStore } from '../store/authStore'
 
+const initialTeams: Team[] = [
+  {
+    id: 'team-1',
+    name: 'Equipo Diseño',
+    description: 'Revisión de propuesta visual y feedback semanal.',
+    color: '#ff8a00',
+    platform: 'Slack',
+    inviteLink: 'https://calendar.app/invite/abc123',
+    votingRule: 'majority',
+    members: [
+      { id: '1', name: 'Marta', role: 'Creadora', availability: 'Disponible' },
+      { id: '2', name: 'Leo', role: 'Product', availability: 'Disponible condicionado' },
+    ],
+  },
+  {
+    id: 'team-2',
+    name: 'Product Squad',
+    description: 'Planificación de entregas y dudas de producto.',
+    color: '#7dd3fc',
+    platform: 'Discord',
+    inviteLink: 'https://calendar.app/invite/xyz789',
+    votingRule: 'quorum',
+    members: [
+      { id: '3', name: 'Nora', role: 'PM', availability: 'Disponible' },
+      { id: '4', name: 'Dani', role: 'Engineering', availability: 'Ocupado' },
+    ],
+  },
+]
+
 export function DashboardPage() {
-  const { userName, signOut } = useAuthStore((state) => ({
-    userName: state.userName,
-    signOut: state.signOut,
-  }))
+  const userName = useAuthStore((state) => state.userName)
+  const signOut = useAuthStore((state) => state.signOut)
+  const [teams, setTeams] = useState<Team[]>(initialTeams)
+
+  const summary = useMemo(() => {
+    return teams.map((team) => ({
+      ...team,
+      memberCount: team.members.length,
+    }))
+  }, [teams])
 
   return (
     <main className="dashboard-shell">
@@ -74,6 +113,21 @@ export function DashboardPage() {
               <p className="proposal-text">Jueves · 18:30 - 19:30 · Disponible condicionado</p>
             </Card>
           </div>
+
+          <div className="team-summary-grid">
+            {summary.map((team) => (
+              <Card key={team.id} title={team.name} description={team.description}>
+                <div className="team-summary-list">
+                  <span><Users2 size={14} /> {team.memberCount} miembros</span>
+                  <span><Link2 size={14} /> {team.platform}</span>
+                  <span><Vote size={14} /> {team.votingRule === 'quorum' ? 'Quórum configurable' : 'Mayoría simple'}</span>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          <TeamPanel teams={teams} onCreateTeam={(team) => setTeams((current) => [team, ...current])} />
+          <MeetingDecisionPanel />
         </div>
       </motion.section>
     </main>

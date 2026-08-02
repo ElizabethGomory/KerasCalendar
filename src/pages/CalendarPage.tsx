@@ -1,6 +1,6 @@
 import { format, endOfMonth, endOfWeek, startOfMonth, startOfWeek } from 'date-fns'
 import { CalendarDays, PlusCircle } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CalendarWidget } from '../components/CalendarWidget'
 import { Button } from '../components/ui/Button'
@@ -56,6 +56,7 @@ export function CalendarPage() {
   const [form, setForm] = useState<CalendarFormState>(initialForm)
   const [message, setMessage] = useState('')
   const [editingId, setEditingId] = useState<string | null>(null)
+  const [suggestions, setSuggestions] = useState<Awaited<ReturnType<typeof getAvailabilitySuggestions>>>([])
   const today = new Date()
   const monthStart = startOfMonth(today)
   const monthEnd = endOfMonth(today)
@@ -64,7 +65,23 @@ export function CalendarPage() {
   void calendarStart
   void calendarEnd
 
-  const suggestions = useMemo(() => getAvailabilitySuggestions(activities, 2), [activities])
+  useEffect(() => {
+    async function loadSuggestions() {
+      try {
+        const response = await fetch('/api/availability', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ activities, windowSizeHours: 2 }),
+        })
+        const data = await response.json()
+        setSuggestions(data.slots ? [{ day: data.day, slots: data.slots }] : [])
+      } catch (error) {
+        setSuggestions(getAvailabilitySuggestions(activities, 2))
+      }
+    }
+
+    loadSuggestions()
+  }, [activities])
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -133,7 +150,7 @@ export function CalendarPage() {
             <p className="eyebrow">Calendario</p>
             <h2>Vista personal</h2>
           </div>
-          <nav className="nav-links">
+          <nav className="nav-links" aria-label="Navegación del calendario">
             <Link to="/dashboard">Dashboard</Link>
             <Link to="/calendar">Calendario</Link>
             <Link to="/dashboard">Equipos</Link>
@@ -215,7 +232,7 @@ export function CalendarPage() {
           </Card>
 
           <Card title="Sugerencias de disponibilidad" description="Ventanas recomendadas según tus actividades.">
-            {suggestions.map((suggestion) => (
+            {suggestions.length === 0 ? <p className="calendar-message">No hay propuestas disponibles todavía.</p> : suggestions.map((suggestion) => (
               <div key={suggestion.day} className="availability-block">
                 <h4>{suggestion.day}</h4>
                 <ul>

@@ -144,6 +144,21 @@ p {
   color: var(--text-strong);
 }
 
+.hero-note {
+  display: grid;
+  gap: 4px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 138, 0, 0.08);
+  color: var(--text-strong);
+}
+
+.hero-note span {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
 .dashboard-grid {
   width: min(100%, 1120px);
   display: grid;
@@ -358,6 +373,90 @@ p {
 
 .logout-button {
   justify-content: flex-start;
+  gap: 8px;
+}
+
+.team-summary-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.team-summary-list {
+  display: grid;
+  gap: 8px;
+  color: var(--text-muted);
+}
+
+.team-summary-list span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.team-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.team-card {
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.team-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.team-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-top: 6px;
+}
+
+.team-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 8px 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.team-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.team-members span {
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: rgba(255, 138, 0, 0.12);
+  color: var(--accent);
+  font-size: 0.86rem;
+}
+
+.vote-summary {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+  color: var(--text-muted);
+}
+
+.vote-summary div {
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
 }
 
