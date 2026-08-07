@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
-import { CalendarClock, Link2, LogOut, Sparkles, Users2, Vote } from 'lucide-react'
+import { CalendarClock, Link2, LogOut, Users2, Vote } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { MeetingDecisionPanel } from '../components/MeetingDecisionPanel'
 import { TeamPanel } from '../components/TeamPanel'
 import { Button } from '../components/ui/Button'
@@ -12,7 +12,7 @@ import { useAuthStore } from '../store/authStore'
 const initialTeams: Team[] = [
   {
     id: 'team-1',
-    name: 'Equipo Diseño',
+    name: 'Equipo de Diseño',
     description: 'Revisión de propuesta visual y feedback semanal.',
     color: '#ff8a00',
     platform: 'Slack',
@@ -25,7 +25,7 @@ const initialTeams: Team[] = [
   },
   {
     id: 'team-2',
-    name: 'Product Squad',
+    name: 'Equipo de Producto',
     description: 'Planificación de entregas y dudas de producto.',
     color: '#7dd3fc',
     platform: 'Discord',
@@ -64,10 +64,19 @@ export function DashboardPage() {
             <h2>Tu espacio de trabajo</h2>
           </div>
           <nav className="nav-links">
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/calendar">Calendario</Link>
-            <Link to="/dashboard">Equipos</Link>
-            <Link to="/dashboard">Configuración</Link>
+            <NavLink to="/dashboard" className={({ isActive }) => (isActive ? 'active' : '')}>
+              Dashboard
+            </NavLink>
+            <NavLink to="/calendar" className={({ isActive }) => (isActive ? 'active' : '')}>
+              Calendario
+            </NavLink>
+            <NavLink to="/settings" className={({ isActive }) => (isActive ? 'active' : '')}>
+              Configuración
+            </NavLink>
+            <div className="sidebar-separator" aria-hidden="true" />
+            <NavLink to="/dashboard" className={({ isActive }) => (isActive ? 'active' : '')}>
+              Equipos
+            </NavLink>
           </nav>
           <div className="group-list">
             <p className="eyebrow">Grupos</p>
@@ -86,11 +95,9 @@ export function DashboardPage() {
           <Card title={`Hola, ${userName ?? 'usuario'}`} description="Tu siguiente propuesta de reunión está lista para revisar.">
             <div className="metric-row">
               <div className="metric-pill">
-                <Sparkles size={16} />
                 <span>3 ventanas de reunión</span>
               </div>
               <div className="metric-pill">
-                <Users2 size={16} />
                 <span>2 equipos activos</span>
               </div>
             </div>

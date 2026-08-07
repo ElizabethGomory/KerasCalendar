@@ -66,6 +66,8 @@
 - [x] Añadir pruebas unitarias (Vitest).
 - [x] Añadir pruebas de integración (Cypress).
 
+> Estado final: producto validado, desplegado y sincronizado con GitHub.
+
 > Avance actual: se añadió una prueba unitaria para la lógica de disponibilidad con Vitest.
 
 ## 11. Despliegue

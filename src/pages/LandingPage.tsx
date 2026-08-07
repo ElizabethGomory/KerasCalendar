@@ -1,10 +1,8 @@
 import { motion } from 'framer-motion'
-import { CalendarDays, ShieldCheck, Sparkles, Users2 } from 'lucide-react'
+import { CalendarDays } from 'lucide-react'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { useAuthStore } from '../store/authStore'
-
-const providers = ['Google', 'Discord', 'GitHub', 'Email']
 
 export function LandingPage() {
   const signIn = useAuthStore((state) => state.signIn)
@@ -18,7 +16,6 @@ export function LandingPage() {
         transition={{ duration: 0.35 }}
         aria-label="Bienvenida a KerasCalendar"
       >
-        <div className="hero-glow" />
         <Card className="hero-card">
           <div className="hero-brand">
             <div className="brand-badge">
@@ -26,47 +23,26 @@ export function LandingPage() {
             </div>
             <div>
               <p className="eyebrow">KerasCalendar</p>
-              <h1>Encuentra horarios en minutos, no en mensajes.</h1>
+              <h1>Organiza tu agenda y reuniones internacionales con claridad.</h1>
             </div>
           </div>
 
           <p className="hero-copy">
-            Coordina reuniones de forma más inteligente: convierte tus bloques de agenda en una experiencia de disponibilidad compartida, con reglas de privacidad, equipo y decisión colectiva.
+            Keras Calendar simplifica tu trabajo global con una agenda personal clara, coordinación entre equipos de distintos países y un flujo que funciona con cualquier huso horario.
           </p>
+
+          <ul className="feature-list">
+            <li>Organizar la agenda personal</li>
+            <li>Organizar reuniones internacionales</li>
+            <li>Encontrar horarios compatibles entre equipos de distintos países</li>
+            <li>Trabajar correctamente sin importar el huso horario</li>
+          </ul>
 
           <div className="hero-actions" role="group" aria-label="Acciones principales">
             <Button onClick={() => signIn('Email')}>Entrar a la demo</Button>
             <Button variant="secondary" onClick={() => signIn('Google')}>
               Crear cuenta
             </Button>
-          </div>
-
-          <div className="provider-list" aria-label="Métodos de acceso">
-            {providers.map((provider) => (
-              <button key={provider} type="button" onClick={() => signIn(provider)}>
-                {provider}
-              </button>
-            ))}
-          </div>
-
-          <div className="feature-grid">
-            <div className="feature-item">
-              <Sparkles size={18} />
-              <span>Disponibilidad inteligente</span>
-            </div>
-            <div className="feature-item">
-              <ShieldCheck size={18} />
-              <span>Privacidad por defecto</span>
-            </div>
-            <div className="feature-item">
-              <Users2 size={18} />
-              <span>Equipos y reuniones</span>
-            </div>
-          </div>
-
-          <div className="hero-note">
-            <strong>Listo para presentar</strong>
-            <span>Diseño orientado a producto, flujo demo completo y base preparada para integración real.</span>
           </div>
         </Card>
       </motion.section>

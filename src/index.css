@@ -11,7 +11,10 @@
   --text: #202020;
   --text-strong: #141414;
   --text-muted: #5f5f61;
-  --bg: #f5f5f5;
+  --bg: linear-gradient(135deg, #f5f5f5 0%, #f8efe8 100%);
+  --sidebar-bg: rgba(255, 255, 255, 0.58);
+  --surface: rgba(255, 255, 255, 0.9);
+  --surface-border: rgba(255, 255, 255, 0.7);
   --border: rgba(32, 32, 32, 0.12);
   --accent: #ff8a00;
   --accent-strong: #ff9f26;
@@ -24,7 +27,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f5f5 0%, #f8efe8 100%);
+  background: var(--bg);
   color: var(--text);
 }
 
@@ -65,73 +68,80 @@ p {
 }
 
 .hero-panel {
-  width: min(100%, 980px);
+  width: min(100%, 760px);
 }
 
 .hero-card {
   position: relative;
   overflow: hidden;
-}
-
-.hero-glow {
-  position: absolute;
-  inset: -20% auto auto 50%;
-  width: 340px;
-  height: 340px;
-  background: radial-gradient(circle, rgba(255, 138, 0, 0.15), transparent 70%);
-  transform: translateX(-50%);
-  pointer-events: none;
+  border-radius: 28px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  box-shadow: 0 24px 80px rgba(32, 32, 32, 0.08);
+  backdrop-filter: blur(20px);
+  padding: 40px 36px;
 }
 
 .hero-brand {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .brand-badge {
   display: grid;
   place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
-  background: rgba(255, 138, 0, 0.14);
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  background: rgba(255, 138, 0, 0.16);
   color: var(--accent);
 }
 
 .hero-copy {
-  max-width: 620px;
-  margin-bottom: 22px;
+  max-width: 640px;
+  margin-bottom: 24px;
   color: var(--text-muted);
   font-size: 1.02rem;
+  line-height: 1.8;
 }
 
 .hero-actions {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
-  margin-bottom: 18px;
+  margin-top: 28px;
+}
+
+.feature-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-strong);
+  font-weight: 500;
+}
+
+.feature-list li {
+  padding-left: 20px;
+  position: relative;
+}
+
+.feature-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
 }
 
 .provider-list {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.provider-list button {
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.7);
-  padding: 8px 12px;
+  display: none;
 }
 
 .feature-grid {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  display: none;
 }
 
 .feature-item {
@@ -152,6 +162,12 @@ p {
   border-radius: 14px;
   background: rgba(255, 138, 0, 0.08);
   color: var(--text-strong);
+}
+
+.hero-panel {
+  background: #f4f5f6;
+  border-radius: 36px;
+  padding: 32px;
 }
 
 .hero-note span {
@@ -176,10 +192,160 @@ p {
 .sidebar-card {
   padding: 20px;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.58);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: var(--sidebar-bg);
+  border: 1px solid var(--surface-border);
   box-shadow: 0 20px 70px rgba(32, 32, 32, 0.08);
   backdrop-filter: blur(25px);
+}
+
+.calendar-add-button {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.auth-form,
+.activity-form {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.auth-form input,
+.auth-form select,
+.activity-form input,
+.activity-form select {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.auth-note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  padding: 0 4px;
+}
+
+.auth-message {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 138, 0, 0.12);
+  color: var(--text-strong);
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.25);
+  backdrop-filter: blur(6px);
+  z-index: 50;
+}
+
+.modal-card-inner {
+  width: min(100%, 680px);
+}
+
+.modal-card {
+  padding: 32px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 28px 90px rgba(32, 32, 32, 0.12);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.modal-close {
+  border: none;
+  background: rgba(255, 255, 255, 0.75);
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.activity-row {
+  display: grid;
+  gap: 12px;
+}
+
+.activity-row > div {
+  display: grid;
+  gap: 12px;
+}
+
+.color-input {
+  width: 100%;
+  height: 48px;
+  padding: 0;
+  border-radius: 16px;
+}
+
+.activity-group {
+  display: grid;
+  gap: 12px;
+}
+
+.day-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.day-checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(32, 32, 32, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+
+.day-checkbox.selected {
+  background: rgba(255, 138, 0, 0.14);
+  border-color: rgba(255, 138, 0, 0.3);
+}
+
+.day-checkbox input {
+  display: none;
+}
+
+.existing-activities {
+  display: grid;
+  gap: 12px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(32, 32, 32, 0.08);
+}
+
+.existing-activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.calendar-action {
+  width: 100%;
 }
 
 .nav-links {
@@ -193,8 +359,25 @@ p {
   color: var(--text);
   text-decoration: none;
   padding: 10px 12px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.55);
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease, padding-left 0.2s ease;
+}
+
+.nav-links a.active {
+  color: var(--accent);
+  text-shadow: 0 0 16px rgba(255, 138, 0, 0.35);
+  font-weight: 700;
+  padding-left: 14px;
+  border-left: 3px solid var(--accent);
+}
+
+.sidebar-separator {
+  height: 1px;
+  width: 100%;
+  background: rgba(32, 32, 32, 0.08);
+  margin: 8px 0;
 }
 
 .group-list {
@@ -263,7 +446,28 @@ p {
   gap: 12px;
   margin-bottom: 16px;
 }
+.calendar-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
 
+.calendar-nav {
+  display: flex;
+  gap: 10px;
+}
+
+.calendar-nav-button,
+.calendar-view-select select {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--text);
+  padding: 8px 12px;
+}
+
+.calendar-view-select select {
+  min-width: 160px;
+}
 .calendar-title-group {
   display: flex;
   align-items: center;
@@ -291,11 +495,36 @@ p {
   gap: 8px;
 }
 
+.settings-field {
+  display: grid;
+  gap: 8px;
+}
+
+.settings-field label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.settings-field input,
+.settings-field select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.mode-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .fullcalendar-shell {
   border-radius: 18px;
   overflow: hidden;
   padding: 8px;
-  background: rgba(255, 255, 255, 0.72);
+  background: var(--surface);
 }
 
 .fc {

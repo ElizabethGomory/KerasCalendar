@@ -45,6 +45,11 @@ export function TeamPanel({ teams, onCreateTeam }: TeamPanelProps) {
     setMessage('Equipo creado correctamente.')
   }
 
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(draft.inviteLink)
+    setMessage('Enlace de equipo copiado.')
+  }
+
   return (
     <Card title="Equipos y reuniones" description="Crea grupos, comparte enlaces y define cómo se aprobarán las reuniones.">
       <form className="calendar-form" onSubmit={handleSubmit}>
@@ -61,17 +66,31 @@ export function TeamPanel({ teams, onCreateTeam }: TeamPanelProps) {
           value={draft.description}
           onChange={(event) => setDraft((current) => ({ ...current, description: event.target.value }))}
         />
+        <input
+          aria-label="Enlace de reunión"
+          placeholder="Enlace de reunión"
+          value={draft.inviteLink}
+          onChange={(event) => setDraft((current) => ({ ...current, inviteLink: event.target.value }))}
+        />
         <select
           aria-label="Plataforma"
           value={draft.platform}
           onChange={(event) => setDraft((current) => ({ ...current, platform: event.target.value }))}
         >
-          <option>Slack</option>
           <option>Discord</option>
-          <option>Teams</option>
+          <option>Zoom</option>
+          <option>Google Meet</option>
+          <option>Slack</option>
+          <option>Microsoft Teams</option>
           <option>WhatsApp</option>
+          <option>Jitsi Meet</option>
+          <option>Skype</option>
+          <option>Telegram</option>
         </select>
         <div className="team-actions">
+          <Button type="button" size="sm" variant="secondary" onClick={handleCopyLink}>
+            Copiar enlace de equipo
+          </Button>
           <Button type="submit" size="sm">
             <Users2 size={16} /> Crear equipo
           </Button>

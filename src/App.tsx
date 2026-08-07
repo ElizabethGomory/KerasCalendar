@@ -3,6 +3,7 @@ import './App.css'
 import { CalendarPage } from './pages/CalendarPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { LandingPage } from './pages/LandingPage'
+import { SettingsPage } from './pages/SettingsPage'
 import { useAuthStore } from './store/authStore'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LandingPage />} />
         <Route path="/dashboard" element={isAuthenticated ? <DashboardPage /> : <Navigate to="/" replace />} />
         <Route path="/calendar" element={isAuthenticated ? <CalendarPage /> : <Navigate to="/" replace />} />
+        <Route path="/settings" element={isAuthenticated ? <SettingsPage /> : <Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   )

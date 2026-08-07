@@ -9,6 +9,8 @@ export type Activity = {
   color: string
   flexibility: 'fija' | 'flexible'
   recurring: 'none' | 'daily' | 'weekly' | 'monthly'
+  repeatDays?: string[]
+  repeatMonths?: number
 }
 
 export type AvailabilitySlot = {
@@ -30,7 +32,7 @@ export function getAvailabilitySuggestions(activities: Activity[], windowSizeHou
   const slots: AvailabilitySlot[] = []
 
   const blocked = activities
-    .filter((activity) => activity.date === day)
+    .filter((activity) => activity.date === day && activity.category !== 'Tiempo Libre')
     .map((activity) => ({
       start: activity.start,
       end: activity.end,
