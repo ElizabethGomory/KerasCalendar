@@ -6,6 +6,7 @@ import { useAuthStore } from '../store/authStore'
 
 export function LandingPage() {
   const signIn = useAuthStore((state) => state.signIn)
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
   return (
     <main className="landing-shell">
@@ -39,8 +40,8 @@ export function LandingPage() {
           </ul>
 
           <div className="hero-actions" role="group" aria-label="Acciones principales">
-            <Button onClick={() => signIn('Email')}>Entrar a la demo</Button>
-            <Button variant="secondary" onClick={() => signIn('Google')}>
+            <Button onClick={() => signIn('Email', null, timezone)}>Entrar a la demo</Button>
+            <Button variant="secondary" onClick={() => signIn('Google', null, timezone)}>
               Crear cuenta
             </Button>
           </div>

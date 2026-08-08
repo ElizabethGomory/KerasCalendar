@@ -225,7 +225,7 @@ export function CalendarPage() {
               Equipos
             </NavLink>
           </nav>
-          <Button type="button" onClick={openModal} className="calendar-add-button">
+          <Button type="button" onClick={() => openModal()} className="calendar-add-button">
             Agregar actividad
           </Button>
           <Button variant="ghost" className="logout-button" onClick={signOut}>
